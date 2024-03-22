@@ -3,28 +3,30 @@ library(tidyverse)
 
 #import dataset
 
-Hanson22_dataset <- read_excel("~/Downloads/jci.insight.157621.sdd1.xlsx",
+Hanson22_dataset <- read_excel("~/Downloads/jciinsight-7-157621-s149_corrected.xlsx",
                                sheet = "ScaledImpDataZeroDrug&Tobacco")
-
-h22base <- Hanson22_dataset %>% pivot_longer(cols = -c(1:9)) %>% 
-mutate(id = row_number()) %>%  filter(id>2835)
 
 #break dataset into useful subcomponents
 
+h22base <- Hanson22_dataset %>% pivot_longer(cols = -c(1:16)) %>% 
+mutate(id = row_number()) %>%  filter(id>2828)
 
-h22_case_control<- Hanson22_dataset %>% pivot_longer(cols = -c(1:9)) %>% 
-mutate(id = row_number()) %>%  filter(id<2836) %>% filter(value %in% c("Control", "CFS")) %>% 
+
+
+
+h22_case_control<- Hanson22_dataset %>% pivot_longer(cols = -c(1:16)) %>% 
+mutate(id = row_number()) %>%  filter(id<2828) %>% filter(value %in% c("Control", "CFS")) %>% 
 select( name, casecontrol =value)
 
 
-h22prepost <- Hanson22_dataset %>% pivot_longer(cols = -c(1:9)) %>% mutate(id = row_number()) %>%  filter(id<2836) %>%
+h22prepost <- Hanson22_dataset %>% pivot_longer(cols = -c(1:16)) %>% mutate(id = row_number()) %>%  filter(id<2828) %>%
   filter(value %in% c("D1-PRE","D1-POST","D2-PRE","D2-POST")) %>% select(name, prepost = value)
 
 
-h22sex <- Hanson22_dataset %>% pivot_longer(cols = -c(1:9)) %>% mutate(id = row_number()) %>%  filter(id<2836) %>%
+h22sex <- Hanson22_dataset %>% pivot_longer(cols = -c(1:16)) %>% mutate(id = row_number()) %>%  filter(id<2828) %>%
   filter(value %in% c( "F", "M")) %>% select(name, sex = value)
 
-h22bell <- Hanson22_dataset %>% pivot_longer(cols = -c(1:9)) %>% mutate(id = row_number()) %>%  filter(id<2836) %>%
+h22bell <- Hanson22_dataset %>% pivot_longer(cols = -c(1:16)) %>% mutate(id = row_number()) %>%  filter(id<2828) %>%
   filter(value %in% c( 10,20,30,40,50,60,70,80,90,100)) %>% select(name, bell = value)
 
 #make core dataset for working on from subcomponents
